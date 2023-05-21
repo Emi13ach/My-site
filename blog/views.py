@@ -1,9 +1,10 @@
+from .models import Post
 from datetime import date
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
 all_posts = [
     {
-        "slug": "hike-in-the-mountains",
+        "slug": "mountain-hiking",
         "image": "mountains.jpeg",
         "author": "Emil",
         "date": date(2023, 5, 9),
@@ -47,7 +48,7 @@ all_posts = [
                        """
     },
             {
-        "slug": "my-lovly-monutains",
+        "slug": "my-lovely-mountains",
         "image": "mountains-2.jpeg",
         "author": "Emil",
         "date": date(2023, 3, 9),
@@ -71,20 +72,31 @@ all_posts = [
 ]
 
 def starting_page(request):
-    sorted_posts = sorted(all_posts, key=lambda post: post["date"])
-    latest_posts = sorted_posts[-3:]
+    sorted_posts = Post.objects.all().order_by("-date")[:3]
+    # sorted_posts = sorted(all_posts, key=lambda post: post["date"])
+    # latest_posts = sorted_posts[-3:]
     return render(request, "blog/index.html", {
-        "posts": latest_posts,
+        "posts": sorted_posts,
         })
     
 def posts(request):
+    all_posts = Post.objects.all()
     return render(request, "blog/all-posts.html", {
         "all_posts": all_posts
     })
 
+# def post_detail(request, slug):
+#     identified_post = next(post for post in all_posts if post["slug"] == slug)
+#     print(identified_post)
+#     return render(request, "blog/post-detail.html", {
+#         "post_details": identified_post
+#     })
+
 def post_detail(request, slug):
-    identified_post = next(post for post in all_posts if post["slug"] == slug)
-    print(identified_post)
+    post = get_object_or_404(Post, slug=slug)
+    print(post.title)
+    print(post.author)
     return render(request, "blog/post-detail.html", {
-        "post_details": identified_post
+        "post_details": post
     })
+    

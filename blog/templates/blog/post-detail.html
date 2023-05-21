@@ -11,7 +11,7 @@
     <section id="summary">
         <h2>{{ post_details.title }}</h2>
         <article>
-            <img src="{% static "blog/images/"|add:post_details.image %}" alt="{{ post_details.title }}" />
+            <img src="{% static "blog/images/"|add:post_details.image_name %}" alt="{{ post_details.title }}" />
             <address>{{ post_details.author }}</address>
             <div>
                 Last updated on <time>{{ post_details.date|date:"d M Y" }}</time>
