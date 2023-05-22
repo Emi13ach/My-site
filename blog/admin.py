@@ -5,8 +5,8 @@ from .models import Post, Author, Tag
 
 class SiteAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
-    list_filter = ("title", "tags")    
-    list_display = ("title",)
+    list_filter = ("title", "date", "tags")    
+    list_display = ("title", "date", "author")
     
     
 # Register your models here.
